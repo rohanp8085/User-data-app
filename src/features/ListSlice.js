@@ -20,7 +20,11 @@ const initialState = {
 const ListSLice = createSlice({
   name: "list",
   initialState,
-  reducers: {},
+  reducers: {
+    Remove : (state , action) =>{
+        return state.filter(item => item.id !== action.payload)
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(getcountry.pending, (state) => {
       state.isLoading = true
@@ -56,10 +60,12 @@ const ListSLice = createSlice({
         state.isLoading = false
         state.isError = true
         state.message = action.payload
+      }).addCase(deleteData.fulfilled , (state , action)=>{
+           state.formdata = state.formdata.filter(item => item.id !== action.payload)
       })
   }
 })
-
+export const {Remove} = ListSLice.actions
 export default ListSLice.reducer
 
 
@@ -86,6 +92,14 @@ export const getstate = createAsyncThunk("get/states", async (userdata, thunkAPI
 export const getData = createAsyncThunk("get/data", async (data) => {
   try {
     return ListService.getdata(data)
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+export const deleteData = createAsyncThunk("delete/data" , async(id)=>{
+  try {
+    return ListService.deleteData(id)
   } catch (error) {
     console.log(error)
   }

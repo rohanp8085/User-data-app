@@ -34,14 +34,22 @@ const getdata = async(data)=>{
     const newdata = [objdata]
     console.log(newdata)
    localStorage.setItem("tabledata" , JSON.stringify(newdata))
-    return data
-}    
+    return  data
+}  
+
+const deleteData = async(id)=>{
+
+   localStorage.removeItem("tabledata")
+   return id
+
+}
 
 
 const ListService = {
     createlist,
     getstate,
-    getdata
+    getdata,
+    deleteData
 }
 
 export default ListService

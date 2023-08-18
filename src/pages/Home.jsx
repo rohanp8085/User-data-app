@@ -1,8 +1,10 @@
 import { Box, Button, Container, InputLabel, MenuItem, Paper, Select, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getData, getcountry, getstate } from '../features/ListSlice'
+import { Remove, deleteData, getData, getcountry, getstate } from '../features/ListSlice'
 import Modal from '@mui/material/Modal';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 
 const style = {
@@ -21,7 +23,7 @@ const style = {
 const Home = () => {
 
     const { lists, states, formdata } = useSelector(state => state.list)
-    
+
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => {
@@ -34,6 +36,7 @@ const Home = () => {
 
     const dispatch = useDispatch()
     const [text, setText] = useState({
+        id: crypto.randomUUID(),
         name: "",
         email: "",
         number: "",
@@ -65,75 +68,22 @@ const Home = () => {
             number: "",
             country: "",
             state: "",
-    
+
         })
 
+    }
+
+    const handleDelete = (id) => {
+      
+      dispatch(deleteData(id))
+       
     }
     return (
         <>
 
-
-            {/* <Container maxWidth="sm" sx={{ padding: 5 }} >
-
-
-
-                <Typography variant="h5" component="h2" align="center">
-                    Home
-                </Typography>
-                <TextField
-                    type="text"
-                    name="name"
-                    placeholder='name'
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    value={name}
-                    required
-                />
-                <TextField
-                    type="email"
-                    name="email"
-                    placeholder='email'
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    value={email}
-                    required
-                />
-                <TextField
-                    type="number"
-                    name="number"
-                    placeholder='number'
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    value={number}
-                    required
-                />
-                <TextField
-                    type="text"
-                    name="city"
-                    placeholder='country'
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    value={country}
-                    required
-                />
-                <TextField
-                    type="text"
-                    name="state"
-                    placeholder='state'
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    value={state}
-                    required
-                /> </Container> */}
-
-            <Container sx={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", padding: "30px", flexDirection:"column" }}>
+            <Container sx={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", padding: "30px", flexDirection: "column" }}>
                 <Typography variant='h4'>User Data</Typography>
-                <Paper sx={{ width: "100%" ,padding:"20px"}}  >
+                <Paper sx={{ width: "100%", padding: "20px" }}  >
                     <Table  >
                         <TableHead>
                             <TableRow>
@@ -144,7 +94,7 @@ const Home = () => {
                                 <TableCell ><b>State</b></TableCell>
                             </TableRow>
                         </TableHead>
-                        <TableBody sx={{marginTop:"10px"}}>
+                        <TableBody sx={{ marginTop: "10px" }}>
 
                             {
                                 formdata.map(data => <TableRow key={data.id} data={data}  >
@@ -153,13 +103,19 @@ const Home = () => {
                                     <TableCell >{data.number}</TableCell>
                                     <TableCell >{data.country}</TableCell>
                                     <TableCell >{data.state}</TableCell>
+                                    <TableCell onClick={handleOpen}><EditIcon sx={{ color: "green" }} /></TableCell>
+                                    <TableCell onClick={()=>handleDelete(data.id)}><DeleteIcon sx={{ color: "red" }} /></TableCell>
                                 </TableRow>)
                             }
 
 
                         </TableBody>
+
+
                     </Table>
+
                 </Paper>
+
             </Container>
 
             <button className='add-btn' onClick={handleOpen}><h1>+</h1></button>
@@ -196,7 +152,7 @@ const Home = () => {
                         <TextField
                             type="number"
                             name="number"
-                         placeholder='number'
+                            placeholder='number'
                             variant="outlined"
                             fullWidth
                             margin="normal"
