@@ -1,7 +1,7 @@
 import { Box, Button, Container, InputLabel, MenuItem, Paper, Select, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Remove, deleteData, getData, getcountry, getstate } from '../features/ListSlice'
+import {  deleteData, getData, getcountry, getstate } from '../features/ListSlice'
 import Modal from '@mui/material/Modal';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -50,8 +50,8 @@ const Home = () => {
         dispatch(getcountry())
         dispatch(getstate())
 
-    }, [])
-    const { name, email, number, country, state } = text
+    }, [dispatch])
+    const {  name, email, number, country, state } = text
 
     const handleChange = (e) => {
         setText({
@@ -74,7 +74,7 @@ const Home = () => {
     }
 
     const handleDelete = (id) => {
-      
+        //   console.log(id)
       dispatch(deleteData(id))
        
     }
@@ -126,7 +126,7 @@ const Home = () => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <form method='post' onSubmit={handleSubmit}>
+                    <form method='post' onSubmit={handleSubmit} >
                         <TextField
                             type="text"
                             name="name"
@@ -201,7 +201,7 @@ const Home = () => {
 
 
                         <Button
-
+                            
                             type="submit"
                             variant="contained"
                             color="success"

@@ -21,9 +21,7 @@ const ListSLice = createSlice({
   name: "list",
   initialState,
   reducers: {
-    Remove : (state , action) =>{
-        return state.filter(item => item.id !== action.payload)
-    }
+   
   },
   extraReducers: (builder) => {
     builder.addCase(getcountry.pending, (state) => {
@@ -65,7 +63,7 @@ const ListSLice = createSlice({
       })
   }
 })
-export const {Remove} = ListSLice.actions
+
 export default ListSLice.reducer
 
 
